@@ -41,11 +41,13 @@ class TemperatureEquilibrator(Equilibrator):
         # Output equilibrator info
         print(
             'Equilibrator heats the system from 1 K to %.2f K\n' 
-            %(self._temp_target / unit.kelvin)
+            %(self._temp_target / unit.kelvin), file=self._log_file
         )
         print(
             '%d %d-steps (%.2f ps) episodes will be performed.' 
-            %(self._num_episodes, self._num_sim_steps_per_episode, self._num_sim_steps_per_episode * self._time_step / unit.picosecond)
+            %(
+                self._num_episodes, self._num_sim_steps_per_episode, self._num_sim_steps_per_episode * self._time_step / unit.picosecond
+            ), file=self._log_file
         )
 
         # Force Field
@@ -55,7 +57,7 @@ class TemperatureEquilibrator(Equilibrator):
 
         # Log reporter
         self._log_reporter = app.StateDataReporter(
-            sys.stdout, self._output_freq, step=True,
+            self._log_file, self._output_freq, step=True,
             potentialEnergy=True, kineticEnergy=True, totalEnergy=True,
             temperature=True, volume=True, speed=True, density=True,
             totalSteps=self._num_sim_steps, remainingTime=True,separator='\t'
@@ -69,7 +71,7 @@ class TemperatureEquilibrator(Equilibrator):
     def _execute(self):
         for temp in np.linspace(1, self._temp_target / unit.kelvin, self._num_episodes):
             # Output
-            print('\nHeating system at %.2f K. \n' %temp) 
+            print('\nHeating system at %.2f K. \n' %temp, file=self._log_file) 
             
             # System
             system = self._force_field.createSystem(

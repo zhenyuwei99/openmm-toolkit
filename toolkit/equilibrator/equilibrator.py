@@ -52,7 +52,6 @@ class Equilibrator:
 
         self._out_log_file_path = os.path.join(out_log_dir, out_prefix + '.log')
         self._log_file = open(self._out_log_file_path, 'w')
-        sys.stdout = self._log_file
 
         self._out_pdb_file_path = os.path.join(out_pdb_dir, out_prefix + '.pdb')
         self._out_pdb_restart_file_path = os.path.join(out_pdb_dir, out_prefix + '_restart.pdb')
@@ -66,8 +65,8 @@ class Equilibrator:
         self._execute()
         self._teardown()
         end_time = datetime.datetime.now().replace(microsecond=0)
-        print('Total running time:', end='\t')
-        print(end_time - start_time)    
+        print('Total running time:', end='\t', file=self._log_file)
+        print(end_time - start_time, file=self._log_file)    
         self._log_file.close()
     
     def _setup(self):
