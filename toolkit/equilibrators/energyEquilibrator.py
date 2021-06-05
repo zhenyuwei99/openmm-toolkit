@@ -33,12 +33,9 @@ class EnergyEquilibrator(Equilibrator):
             0 * unit.kelvin, 0.001/unit.femtosecond, 1 * unit.femtosecond
         )
 
-        # Platform
-        platform = openmm.Platform_getPlatformByName('CUDA')
-
         # Simulation
         self._simulation = app.Simulation(
-            self._pdb.topology, system, integrator, platform
+            self._pdb.topology, system, integrator, self._platform
         )
         self._simulation.context.setPositions(self._pdb.positions)
         init_state = self._simulation.context.getState(getEnergy=True)
@@ -66,7 +63,7 @@ class EnergyEquilibrator(Equilibrator):
         )
 
         # Write restart file
-        file_restart = open(self._out_pdb__restart_file_path, 'w')
+        file_restart = open(self._out_pdb_restart_file_path, 'w')
         app.PDBFile.writeFile(
             self._simulation.topology, final_state.getPositions(), file_restart
         )
