@@ -7,8 +7,10 @@ __pycache__/
 *.so
 
 # .vscode
-
 .vscode
+
+# Dev dir
+dev
 
 # Distribution / packaging
 .Python
