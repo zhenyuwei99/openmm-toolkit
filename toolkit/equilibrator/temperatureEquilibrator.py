@@ -20,10 +20,10 @@ from ..utils import *
 
 class TemperatureEquilibrator(Equilibrator):
     def __init__(
-        self, temp_target, temp_step, time_sim, time_step, output_freq, pdb_file, output_dir,
-        out_prefix='temperature_equilibrator', platform='CUDA', cut_off=12
+        self, temp_target, temp_step, time_sim, time_step, output_freq, output_dir,
+        pdb_file='', out_prefix='temperature_equilibrator', platform='CUDA', cut_off=12
     ) -> None:
-        super().__init__(cut_off, pdb_file, output_dir, out_prefix=out_prefix, platform=platform)
+        super().__init__(cut_off, output_dir, pdb_file=pdb_file, out_prefix=out_prefix, platform=platform)
 
         # Read input
         self._temp_target = check_quantity(temp_target, unit.kelvin)

@@ -20,9 +20,12 @@ from ..exceptions import *
 AVAILABLE_PLATFORM = ['CUDA', 'CPU', 'OPENGL']
 
 class Equilibrator:
-    def __init__(self, cut_off, pdb_file, output_dir, out_prefix='equilibrator', platform='CUDA') -> None:
+    def __init__(self, cut_off,  output_dir, pdb_file='', out_prefix='equilibrator', platform='CUDA') -> None:
         # Read input
-        self._pdb = app.PDBFile(pdb_file)
+        if pdb_file == '':
+            self._pdb = None
+        else:
+            self._pdb = app.PDBFile(pdb_file)
         self._cut_off = check_quantity(cut_off, unit.angstrom)
         if not platform in AVAILABLE_PLATFORM:
             raise InvalidPlatformError(
