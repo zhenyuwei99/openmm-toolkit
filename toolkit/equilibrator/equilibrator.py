@@ -14,10 +14,9 @@ import os, sys, datetime
 import simtk.openmm.app as app
 import simtk.openmm.openmm as openmm
 import simtk.unit as unit
+from .. import AVAILABLE_PLATFORM
 from ..utils import check_quantity
 from ..exceptions import *
-
-AVAILABLE_PLATFORM = ['CUDA', 'CPU', 'OPENGL']
 
 class Equilibrator:
     def __init__(self, out_dir, cut_off, pdb_file, out_prefix, platform) -> None:
