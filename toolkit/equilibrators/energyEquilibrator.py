@@ -17,13 +17,8 @@ from . import Equilibrator
 from ..utils import *
 
 class EnergyEquilibrator(Equilibrator):
-    def __init__(
-        self, cut_off, pdb_file, output_dir, out_prefix='energy_equilibrator'
-    ) -> None:
-        super().__init__(pdb_file, output_dir, out_prefix=out_prefix)
-
-        # Read input
-        self._cut_off = check_quantity(cut_off, unit.angstrom)
+    def __init__(self, cut_off, pdb_file, output_dir, out_prefix='energy_equilibrator', platform='CUDA') -> None:
+        super().__init__(cut_off, pdb_file, output_dir, out_prefix=out_prefix, platform=platform)
 
     def _setup(self):
         # Forcefield
