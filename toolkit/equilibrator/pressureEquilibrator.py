@@ -18,17 +18,17 @@ from ..utils import *
 
 class PressureEquilibrator(Equilibrator):
     def __init__(
-        self, press_target, temp_target, time_sim, time_step, output_freq, output_dir, 
+        self, press_target, temp_target, time_sim, time_step, out_freq, out_dir, 
         cut_off=12, pdb_file='', out_prefix='pressure_equilibrator', platform='CUDA'
     ) -> None:
-        super().__init__(output_dir, cut_off, pdb_file, out_prefix, platform)
+        super().__init__(out_dir, cut_off, pdb_file, out_prefix, platform)
 
         # Read input
         self._press_target = check_quantity(press_target, unit.bar)
         self._temp_target = check_quantity(temp_target, unit.kelvin)
         self._time_sim = check_quantity(time_sim, unit.femtosecond)
         self._time_step = check_quantity(time_step, unit.femtosecond)
-        self._output_freq = output_freq
+        self._out_freq = out_freq
 
         # Deduce attribute
         self._num_sim_steps = round(self._time_sim / self._time_step)
@@ -41,7 +41,7 @@ class PressureEquilibrator(Equilibrator):
 
         # Log reporter
         self._log_reporter = app.StateDataReporter(
-            self._log_file, self._output_freq, step=True,
+            self._log_file, self._out_freq, step=True,
             potentialEnergy=True, kineticEnergy=True, totalEnergy=True,
             temperature=True, volume=True, speed=True, density=True,
             totalSteps=self._num_sim_steps, remainingTime=True,separator='\t'
@@ -49,7 +49,7 @@ class PressureEquilibrator(Equilibrator):
 
         # PDB reporter
         self._pdb_reporter = app.PDBReporter(
-            self._out_pdb_file_path, self._output_freq, enforcePeriodicBox=True
+            self._out_pdb_file_path, self._out_freq, enforcePeriodicBox=True
         )
 
         # System
