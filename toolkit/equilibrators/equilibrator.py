@@ -12,13 +12,25 @@ copyright : (C)Copyright 2021-2021, Zhenyu Wei and Southeast University
 
 import os, sys, datetime
 import simtk.openmm.app as app
-
+import simtk.openmm.openmm as openmm
+import simtk.unit as unit
+from ..utils import check_quantity
 from ..exceptions import *
 
+AVAILABLE_PLATFORM = ['CUDA', 'CPU', 'OPENGL']
+
 class Equilibrator:
-    def __init__(self, pdb_file, output_dir, out_prefix='equilibrator') -> None:
+    def __init__(self, cut_off, pdb_file, output_dir, out_prefix='equilibrator', platform='CUDA') -> None:
         # Read input
         self._pdb = app.PDBFile(pdb_file)
+        self._cut_off = check_quantity(cut_off, unit.angstrom)
+        if not platform in AVAILABLE_PLATFORM:
+            raise InvalidPlatformError(
+                '%s is an invalid platform name. Support list:\n%s' 
+                %(AVAILABLE_PLATFORM)
+            )
+        else:
+            self._platform = openmm.Platform_getPlatformByName(platform)
 
         # Check and define path
         out_log_dir = os.path.join(output_dir, 'log_files')
@@ -40,7 +52,7 @@ class Equilibrator:
         sys.stdout = self._log_file
 
         self._out_pdb_file_path = os.path.join(out_pdb_dir, out_prefix + '.pdb')
-        self._out_pdb__restart_file_path = os.path.join(out_pdb_dir, out_prefix + '_restart.pdb')
+        self._out_pdb_restart_file_path = os.path.join(out_pdb_dir, out_prefix + '_restart.pdb')
         
         # Predefined attribute
         self._simulation = None
