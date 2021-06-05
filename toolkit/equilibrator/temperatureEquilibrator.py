@@ -20,12 +20,13 @@ from ..utils import *
 
 class TemperatureEquilibrator(Equilibrator):
     def __init__(
-        self, temp_target, temp_step, time_sim, time_step, output_freq, output_dir,
+        self, temp_origin, temp_target, temp_step, time_sim, time_step, output_freq, output_dir,
         cut_off=12, pdb_file='', out_prefix='temperature_equilibrator', platform='CUDA'
     ) -> None:
         super().__init__(output_dir, cut_off, pdb_file, out_prefix, platform)
 
         # Read input
+        self._temp_origin = check_quantity(temp_origin, unit.kelvin)
         self._temp_target = check_quantity(temp_target, unit.kelvin)
         self._temp_step = check_quantity(temp_step, unit.kelvin)  
         self._time_sim = check_quantity(time_sim, unit.femtosecond)
@@ -34,14 +35,16 @@ class TemperatureEquilibrator(Equilibrator):
 
         # Deduce attribute
         self._num_sim_steps = round(self._time_sim / self._time_step)
-        self._num_episodes = round((self._temp_target - 1 * unit.kelvin) / self._temp_step) # Heating from 1K
+        self._num_episodes = round((self._temp_target - self._temp_origin) / self._temp_step) 
+        if self._num_episodes == 0:
+            self._num_episodes = 1 # Equilibrating system in single temp
         self._num_sim_steps_per_episode = round(self._num_sim_steps / self._num_episodes)
 
     def _setup(self):
         # Output equilibrator info
         print(
-            'Equilibrator heats the system from 1 K to %.2f K\n' 
-            %(self._temp_target / unit.kelvin), file=self._log_file
+            'Equilibrator heats the system from %.2f K to %.2f K\n' 
+            %(self._temp_origin / unit.kelvin, self._temp_target / unit.kelvin), file=self._log_file
         )
         print(
             '%d %d-steps (%.2f ps) episodes will be performed.' 
@@ -69,9 +72,9 @@ class TemperatureEquilibrator(Equilibrator):
         )
 
     def _execute(self):
-        for temp in np.linspace(1, self._temp_target / unit.kelvin, self._num_episodes):
+        for temp in np.linspace(self._temp_origin / unit.kelvin, self._temp_target / unit.kelvin, self._num_episodes):
             # Output
-            print('\nHeating system at %.2f K. \n' %temp, file=self._log_file) 
+            print('\nEquilibrating system at %.2f K. \n' %temp, file=self._log_file) 
             
             # System
             system = self._force_field.createSystem(
