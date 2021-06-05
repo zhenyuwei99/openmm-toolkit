@@ -33,3 +33,11 @@ class InvalidPathError(Exception):
     - equilibrator.equilibrator
     '''
     pass
+
+class InvalidPlatformError(Exception):
+    '''
+    InvalidPlatformError related to error when an invalid platform name is specified
+    Used in:
+    - equilibrator.equilibrator
+    '''
+    pass
