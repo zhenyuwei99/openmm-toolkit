@@ -20,7 +20,7 @@ from ..exceptions import *
 AVAILABLE_PLATFORM = ['CUDA', 'CPU', 'OPENGL']
 
 class Equilibrator:
-    def __init__(self, cut_off,  output_dir, pdb_file='', out_prefix='equilibrator', platform='CUDA') -> None:
+    def __init__(self, output_dir, cut_off, pdb_file, out_prefix, platform) -> None:
         # Read input
         if pdb_file == '':
             self._pdb = None
