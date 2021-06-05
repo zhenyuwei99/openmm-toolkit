@@ -36,31 +36,31 @@ class Equilibrator:
             self._platform = openmm.Platform_getPlatformByName(platform)
 
         # Check and define path
-        out_log_dir = os.path.join(output_dir, 'log_files')
-        out_pdb_dir = os.path.join(output_dir, 'pdb_files')
+        self._out_log_dir = os.path.join(output_dir, 'log_files')
+        self._out_pdb_dir = os.path.join(output_dir, 'pdb_files')
 
         if not os.path.exists(output_dir):
             os.mkdir(output_dir)
-            os.mkdir(out_log_dir)
-            os.mkdir(out_pdb_dir)
+            os.mkdir(self._out_log_dir)
+            os.mkdir(self._out_pdb_dir)
         else:
             
-            if not os.path.exists(out_log_dir):
-                os.mkdir(out_log_dir)
-            if not os.path.exists(out_pdb_dir):
-                os.mkdir(out_pdb_dir)
+            if not os.path.exists(self._out_log_dir):
+                os.mkdir(self._out_log_dir)
+            if not os.path.exists(self._out_pdb_dir):
+                os.mkdir(self._out_pdb_dir)
 
-        self._out_log_file_path = os.path.join(out_log_dir, out_prefix + '.log')
-        self._log_file = open(self._out_log_file_path, 'w')
-
-        self._out_pdb_file_path = os.path.join(out_pdb_dir, out_prefix + '.pdb')
-        self._out_pdb_restart_file_path = os.path.join(out_pdb_dir, out_prefix + '_restart.pdb')
+        self._out_prefix = out_prefix
+        self._out_log_file_path = os.path.join(self._out_log_dir, out_prefix + '.log')
+        self._out_pdb_file_path = os.path.join(self._out_pdb_dir, out_prefix + '.pdb')
+        self._out_pdb_restart_file_path = os.path.join(self._out_pdb_dir, out_prefix + '_restart.pdb')
         
         # Predefined attribute
         self._simulation = None
 
     def equilibrate(self):
         start_time = datetime.datetime.now().replace(microsecond=0)
+        self._log_file = open(self._out_log_file_path, 'w')
         self._setup()
         self._execute()
         self._teardown()
@@ -89,3 +89,14 @@ class Equilibrator:
     @property
     def pdb_restart_file(self):
         return self._out_pdb_restart_file_path
+
+    @property
+    def out_prefix(self):
+        return self._out_prefix
+
+    @out_prefix.setter
+    def out_prefix(self, out_prefix):
+        self._out_prefix = out_prefix
+        self._out_log_file_path = os.path.join(self._out_log_dir, out_prefix + '.log')
+        self._out_pdb_file_path = os.path.join(self._out_pdb_dir, out_prefix + '.pdb')
+        self._out_pdb_restart_file_path = os.path.join(self._out_pdb_dir, out_prefix + '_restart.pdb')
