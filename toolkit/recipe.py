@@ -13,7 +13,7 @@ copyright : (C)Copyright 2021-2021, Zhenyu Wei and Southeast University
 import simtk.openmm.app as app
 from toolkit.equilibrator.equilibrator import Equilibrator
 from .equilibrator import Equilibrator
-from .samplers import Sampler
+from .sampler import Sampler
 
 class Recipe:
     def __init__(self, initial_pdb, jobs) -> None:
