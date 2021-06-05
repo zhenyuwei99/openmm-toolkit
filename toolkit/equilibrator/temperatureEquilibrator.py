@@ -20,18 +20,18 @@ from ..utils import *
 
 class TemperatureEquilibrator(Equilibrator):
     def __init__(
-        self, temp_origin, temp_target, temp_step, time_sim, time_step, output_freq, output_dir,
+        self, temp_origin, temp_target, temp_step, time_sim, time_step, out_freq, out_dir,
         cut_off=12, pdb_file='', out_prefix='temperature_equilibrator', platform='CUDA'
     ) -> None:
-        super().__init__(output_dir, cut_off, pdb_file, out_prefix, platform)
+        super().__init__(out_dir, cut_off, pdb_file, out_prefix, platform)
 
         # Read input
         self._temp_origin = check_quantity(temp_origin, unit.kelvin)
         self._temp_target = check_quantity(temp_target, unit.kelvin)
-        self._temp_step = check_quantity(temp_step, unit.kelvin)  
+        self._temp_step = check_quantity(temp_step if temp_origin != temp_target else 1, unit.kelvin)
         self._time_sim = check_quantity(time_sim, unit.femtosecond)
         self._time_step = check_quantity(time_step, unit.femtosecond)
-        self._output_freq = output_freq
+        self._out_freq = out_freq
 
         # Deduce attribute
         self._num_sim_steps = round(self._time_sim / self._time_step)
@@ -60,7 +60,7 @@ class TemperatureEquilibrator(Equilibrator):
 
         # Log reporter
         self._log_reporter = app.StateDataReporter(
-            self._log_file, self._output_freq, step=True,
+            self._log_file, self._out_freq, step=True,
             potentialEnergy=True, kineticEnergy=True, totalEnergy=True,
             temperature=True, volume=True, speed=True, density=True,
             totalSteps=self._num_sim_steps, remainingTime=True,separator='\t'
@@ -68,7 +68,7 @@ class TemperatureEquilibrator(Equilibrator):
 
         # PDB reporter
         self._pdb_reporter = app.PDBReporter(
-            self._out_pdb_file_path, self._output_freq, enforcePeriodicBox=True
+            self._out_pdb_file_path, self._out_freq, enforcePeriodicBox=True
         )
 
     def _execute(self):
