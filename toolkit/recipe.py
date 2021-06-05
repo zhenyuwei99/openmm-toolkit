@@ -26,8 +26,8 @@ class Recipe:
 
     def run(self):
         for index, job in enumerate(self._jobs):
-            output_index = index + 1
-            job.out_prefix = (str(output_index) if output_index > 9 else '0' + str(output_index)) + '_' + job.out_prefix
+            out_index = index + 1
+            job.out_prefix = (str(out_index) if out_index > 9 else '0' + str(out_index)) + '_' + job.out_prefix
             if index != 0:
                 job._pdb = app.PDBFile(self._jobs[index-1].pdb_restart_file)
             else:
