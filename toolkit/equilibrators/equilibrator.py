@@ -52,7 +52,7 @@ class Equilibrator:
         sys.stdout = self._log_file
 
         self._out_pdb_file_path = os.path.join(out_pdb_dir, out_prefix + '.pdb')
-        self._out_pdb__restart_file_path = os.path.join(out_pdb_dir, out_prefix + '_restart.pdb')
+        self._out_pdb_restart_file_path = os.path.join(out_pdb_dir, out_prefix + '_restart.pdb')
         
         # Predefined attribute
         self._simulation = None
