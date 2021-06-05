@@ -83,3 +83,7 @@ class Equilibrator:
             )
         else:
             return 0
+
+    @property
+    def pdb_restart_file(self):
+        return self._out_pdb_restart_file_path
