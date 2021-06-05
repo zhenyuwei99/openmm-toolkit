@@ -1,7 +1,8 @@
 import pytest
 
 test_order = [
-    'gpu_info'
+    'gpu_info',
+    'check'
 ]
 
 def pytest_collection_modifyitems(items):
