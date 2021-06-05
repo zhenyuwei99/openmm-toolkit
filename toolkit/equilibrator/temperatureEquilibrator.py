@@ -28,7 +28,7 @@ class TemperatureEquilibrator(Equilibrator):
         # Read input
         self._temp_origin = check_quantity(temp_origin, unit.kelvin)
         self._temp_target = check_quantity(temp_target, unit.kelvin)
-        self._temp_step = check_quantity(temp_step, unit.kelvin)  
+        self._temp_step = check_quantity(temp_step if temp_origin != temp_target else 1, unit.kelvin)
         self._time_sim = check_quantity(time_sim, unit.femtosecond)
         self._time_step = check_quantity(time_step, unit.femtosecond)
         self._output_freq = output_freq
