@@ -3,7 +3,7 @@
 '''
 file: exceptions.py
 created time : 2021/06/02
-last edit time : 2021/06/02
+last edit time : 2021/06/05
 author : Zhenyu Wei 
 version : 1.0
 contact : zhenyuwei99@gmail.com
@@ -21,6 +21,14 @@ class NotFoundCUDAError(Exception):
 class UndefinedSimulationInstanceError(Exception):
     ''' 
     UndefinedSimulationInstanceError related to error when self._simulation is not defined.
+    Used in:
+    - equilibrator.equilibrator
+    '''
+    pass
+
+class InvalidPathError(Exception):
+    '''
+    InvalidPathError related to error when path is not existed
     Used in:
     - equilibrator.equilibrator
     '''
