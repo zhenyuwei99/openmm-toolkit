@@ -18,9 +18,9 @@ from ..utils import *
 
 class EnergyEquilibrator(Equilibrator):
     def __init__(
-        self, output_dir, cut_off=12, pdb_file='', out_prefix='energy_equilibrator', platform='CUDA'
+        self, out_dir, cut_off=12, pdb_file='', out_prefix='energy_equilibrator', platform='CUDA'
     ) -> None:
-        super().__init__(output_dir, cut_off, pdb_file, out_prefix, platform)
+        super().__init__(out_dir, cut_off, pdb_file, out_prefix, platform)
 
     def _setup(self):
         # Forcefield

@@ -20,7 +20,7 @@ from ..exceptions import *
 AVAILABLE_PLATFORM = ['CUDA', 'CPU', 'OPENGL']
 
 class Equilibrator:
-    def __init__(self, output_dir, cut_off, pdb_file, out_prefix, platform) -> None:
+    def __init__(self, out_dir, cut_off, pdb_file, out_prefix, platform) -> None:
         # Read input
         if pdb_file == '':
             self._pdb = None
@@ -36,11 +36,11 @@ class Equilibrator:
             self._platform = openmm.Platform_getPlatformByName(platform)
 
         # Check and define path
-        self._out_log_dir = os.path.join(output_dir, 'log_files')
-        self._out_pdb_dir = os.path.join(output_dir, 'pdb_files')
+        self._out_log_dir = os.path.join(out_dir, 'log_files')
+        self._out_pdb_dir = os.path.join(out_dir, 'pdb_files')
 
-        if not os.path.exists(output_dir):
-            os.mkdir(output_dir)
+        if not os.path.exists(out_dir):
+            os.mkdir(out_dir)
             os.mkdir(self._out_log_dir)
             os.mkdir(self._out_pdb_dir)
         else:
