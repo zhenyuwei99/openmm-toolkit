@@ -74,4 +74,12 @@ class PressureEquilibrator(Equilibrator):
         self._simulation.step(self._num_sim_steps)
 
     def _teardown(self):
-        pass
+        # Write restart file
+        pdb_restart_file = open(self._out_pdb_restart_file_path, 'w')
+
+        final_state = self._simulation.context.getState(getPositions=True, getParameters=True, enforcePeriodicBox=True)
+        self._simulation.topology.setPeriodicBoxVectors(final_state.getPeriodicBoxVectors())
+
+        app.PDBFile.writeFile(self._simulation.topology, final_state.getPositions(), pdb_restart_file)
+
+        pdb_restart_file.close()
