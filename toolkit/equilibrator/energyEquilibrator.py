@@ -43,10 +43,10 @@ class EnergyEquilibrator(Equilibrator):
         init_state = self._simulation.context.getState(getEnergy=True)
         
         # Output
-        print('Start to minimize system energy')
+        print('Start to minimize system energy', file=self._log_file)
         print(
             'Initial potential energy:\t%.2f\t kj/mol' 
-            %(init_state.getPotentialEnergy()/unit.kilojoule_per_mole)
+            %(init_state.getPotentialEnergy()/unit.kilojoule_per_mole), file=self._log_file
         )
 
     def _execute(self):
@@ -61,7 +61,7 @@ class EnergyEquilibrator(Equilibrator):
         # Output
         print(
             'Final potential energy:\t\t%.2f\t kj/mol' 
-            %(final_state.getPotentialEnergy()/unit.kilojoule_per_mole)
+            %(final_state.getPotentialEnergy()/unit.kilojoule_per_mole), file=self._log_file
         )
 
         # Write restart file
