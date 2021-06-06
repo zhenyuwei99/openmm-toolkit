@@ -14,5 +14,6 @@ from .distanceUmbrellaSampler import DistanceUmbrellaSampler
 __all__ = [
     'REMDSampler',
     'NVTSampler',
+    'UmbrellaSampler',
     'DistanceUmbrellaSampler'
 ]
