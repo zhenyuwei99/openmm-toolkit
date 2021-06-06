@@ -10,10 +10,11 @@ from .remdSampler import REMDSampler
 from .nvtSampler import NVTSampler
 from .umbrellaSampler import UmbrellaSampler
 from .distanceUmbrellaSampler import DistanceUmbrellaSampler
+from .compoundDistanceUmbrellaSampler import CompoundDistanceUmbrellaSampler
 
 __all__ = [
     'REMDSampler',
     'NVTSampler',
     'UmbrellaSampler',
-    'DistanceUmbrellaSampler'
+    'DistanceUmbrellaSampler', 'CompoundDistanceUmbrellaSampler'
 ]
