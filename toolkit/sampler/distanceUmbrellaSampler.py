@@ -24,7 +24,11 @@ class DistanceUmbrellaSampler(UmbrellaSampler):
         temp_target=300, cut_off=12, pdb_file='', out_freq=10000, 
         out_prefix='distance_umbrella_sampler', platform='CUDA'
     ) -> None:
-        super().__init__(sample_freq, num_replicas, time_sim, time_step, out_dir, temp_target=temp_target, cut_off=cut_off, pdb_file=pdb_file, out_freq=out_freq, out_prefix=out_prefix, platform=platform)
+        super().__init__(
+            sample_freq, num_replicas, time_sim, time_step, out_dir, 
+            temp_target=temp_target, cut_off=cut_off, pdb_file=pdb_file, 
+            out_freq=out_freq, out_prefix=out_prefix, platform=platform
+        )
 
         # Read input
         self._atom1_id = atom1_id
@@ -49,7 +53,7 @@ class DistanceUmbrellaSampler(UmbrellaSampler):
         self._bias_potential.updateParametersInContext(self._simulation.context)
 
     @staticmethod
-    def radius(coord1, coord2, pbc):
+    def _radius(coord1, coord2, pbc):
         pbc = np.array(pbc / unit.angstrom)
         pbc_inv = np.linalg.inv(pbc)
         coord1 = pbc_inv.dot(np.array(coord1 / unit.angstrom))
@@ -65,4 +69,4 @@ class DistanceUmbrellaSampler(UmbrellaSampler):
         state = self._simulation.context.getState(getPositions=True)
         position = state.getPositions()
         pbc = state.getPeriodicBoxVectors()
-        return self.radius(position[self._atom1_id], position[self._atom2_id], pbc)
+        return self._radius(position[self._atom1_id], position[self._atom2_id], pbc)
