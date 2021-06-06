@@ -161,4 +161,5 @@ class UmbrellaSampler(Sampler):
         self._out_pdb_restart_file_path = os.path.join(self._out_pdb_dir, out_prefix + '_restart.pdb')
         shutil.rmtree(self._out_cv_dir)
         self._out_cv_dir = os.path.join(self._out_sample_dir, out_prefix)
-        os.mkdir(self._out_cv_dir)
+        if not os.path.exists(self._out_cv_dir):
+            os.mkdir(self._out_cv_dir)
