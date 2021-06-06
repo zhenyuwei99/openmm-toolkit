@@ -17,6 +17,7 @@ import simtk.openmm as openmm
 import simtk.unit as unit
 from . import Sampler
 from ..utils import check_quantity
+from ..exceptions import *
 
 class UmbrellaSampler(Sampler):
     def __init__(
@@ -121,23 +122,32 @@ class UmbrellaSampler(Sampler):
 
     def createOriginList(self):
         '''
-        This method create a set of origin as the center of umbrella which should be an array of unit.Quantity
+        This method create a set of origin as the center of umbrella, self._origin_list, which should be an array of unit.Quantity
         '''
+        raise NotOverloadedError(
+            'createOriginList method must be overloaded by subclass of UmbrellaSampler class'
+        )
 
     def createBiasPotential(self):
         '''
-        This method create and return a bias potential
+        This method create self._bias_potential
         '''
-        pass
+        raise NotOverloadedError(
+            'createBiasPotential method must be overloaded by subclass of UmbrellaSampler class'
+        )
 
     def setBiasPotential(self, origin):
         '''
         This method modified self._bias_potential and update self._simulation.context
         '''
-        pass
+        raise NotOverloadedError(
+            'setBiasPotential method must be overloaded by subclass of UmbrellaSampler class'
+        )
 
     def getCV(self):
-        pass
+        raise NotOverloadedError(
+            'getCV method must be overloaded by subclass of UmbrellaSampler class'
+        )
 
     @property
     def out_prefix(self):
@@ -151,4 +161,5 @@ class UmbrellaSampler(Sampler):
         self._out_pdb_restart_file_path = os.path.join(self._out_pdb_dir, out_prefix + '_restart.pdb')
         shutil.rmtree(self._out_cv_dir)
         self._out_cv_dir = os.path.join(self._out_sample_dir, out_prefix)
-        os.mkdir(self._out_cv_dir)
+        if not os.path.exists(self._out_cv_dir):
+            os.mkdir(self._out_cv_dir)

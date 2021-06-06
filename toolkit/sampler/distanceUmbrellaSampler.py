@@ -10,12 +10,10 @@ contact : zhenyuwei99@gmail.com
 copyright : (C)Copyright 2021-2021, Zhenyu Wei and Southeast University
 '''
 
-import os, shutil
 import numpy as np
-import simtk.openmm.app as app
 import simtk.openmm as openmm
 import simtk.unit as unit
-from . import NVTSampler, UmbrellaSampler
+from . import UmbrellaSampler
 from ..utils import check_quantity
 
 class DistanceUmbrellaSampler(UmbrellaSampler):
@@ -44,7 +42,7 @@ class DistanceUmbrellaSampler(UmbrellaSampler):
         self._bias_potential.addPerBondParameter('r0')
         self._bias_potential.setUsesPeriodicBoundaryConditions(True)
         self._bias_potential.addBond(self._atom1_id, self._atom2_id, [0])
-        self._bias_potential.setForceGroup(30)
+        self._bias_potential.setForceGroup(31)
 
     def setBiasPotential(self, origin):
         self._bias_potential.setBondParameters(0, self._atom1_id, self._atom2_id, [origin])
