@@ -17,8 +17,10 @@ from . import Equilibrator
 from ..utils import *
 
 class EnergyEquilibrator(Equilibrator):
-    def __init__(self, cut_off, pdb_file, output_dir, out_prefix='energy_equilibrator', platform='CUDA') -> None:
-        super().__init__(cut_off, pdb_file, output_dir, out_prefix=out_prefix, platform=platform)
+    def __init__(
+        self, out_dir, cut_off=12, pdb_file='', out_prefix='energy_equilibrator', platform='CUDA'
+    ) -> None:
+        super().__init__(out_dir, cut_off, pdb_file, out_prefix, platform)
 
     def _setup(self):
         # Forcefield
@@ -41,10 +43,10 @@ class EnergyEquilibrator(Equilibrator):
         init_state = self._simulation.context.getState(getEnergy=True)
         
         # Output
-        print('Start to minimize system energy')
+        print('Start to minimize system energy', file=self._log_file)
         print(
             'Initial potential energy:\t%.2f\t kj/mol' 
-            %(init_state.getPotentialEnergy()/unit.kilojoule_per_mole)
+            %(init_state.getPotentialEnergy()/unit.kilojoule_per_mole), file=self._log_file
         )
 
     def _execute(self):
@@ -59,7 +61,7 @@ class EnergyEquilibrator(Equilibrator):
         # Output
         print(
             'Final potential energy:\t\t%.2f\t kj/mol' 
-            %(final_state.getPotentialEnergy()/unit.kilojoule_per_mole)
+            %(final_state.getPotentialEnergy()/unit.kilojoule_per_mole), file=self._log_file
         )
 
         # Write restart file
