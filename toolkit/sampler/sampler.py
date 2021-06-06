@@ -26,7 +26,7 @@ class Sampler:
         self._cut_off = check_quantity(cut_off, unit.angstrom)
         self._time_sim = check_quantity(time_sim, unit.nanosecond)
         self._time_step = check_quantity(time_step, unit.femtosecond)
-        self._num_sim_steps = self._time_sim / self._time_step
+        self._num_sim_steps = round(self._time_sim / self._time_step)
 
         if pdb_file == '':
             self._pdb = None
