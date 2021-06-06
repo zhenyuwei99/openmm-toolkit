@@ -26,7 +26,7 @@ class Sampler:
         self._cut_off = check_quantity(cut_off, unit.angstrom)
         self._time_sim = check_quantity(time_sim, unit.nanosecond)
         self._time_step = check_quantity(time_step, unit.femtosecond)
-        self._num_sim_steps = self._time_sim / self._time_step
+        self._num_sim_steps = round(self._time_sim / self._time_step)
 
         if pdb_file == '':
             self._pdb = None
@@ -43,16 +43,20 @@ class Sampler:
         # Check and define path
         self._out_log_dir = os.path.join(out_dir, 'log_files')
         self._out_pdb_dir = os.path.join(out_dir, 'pdb_files')
+        self._out_sample_dir = os.path.join(out_dir, 'sample_files')
 
         if not os.path.exists(out_dir):
             os.mkdir(out_dir)
             os.mkdir(self._out_log_dir)
             os.mkdir(self._out_pdb_dir)
+            os.mkdir(self._out_sample_dir)
         else:
             if not os.path.exists(self._out_log_dir):
                 os.mkdir(self._out_log_dir)
             if not os.path.exists(self._out_pdb_dir):
                 os.mkdir(self._out_pdb_dir)
+            if not os.path.exists(self._out_sample_dir):
+                os.mkdir(self._out_sample_dir)
 
         self._out_prefix = out_prefix
         self._out_log_file_path = os.path.join(self._out_log_dir, out_prefix + '.log')
