@@ -41,3 +41,11 @@ class InvalidPlatformError(Exception):
     - equilibrator.equilibrator
     '''
     pass
+
+class NotOverloadedError(Exception):
+    '''
+    NotOverloadedError related to error when parent method has not been overloaded
+    Used in:
+    - sampler.umbrellaSampler
+    '''
+    pass
