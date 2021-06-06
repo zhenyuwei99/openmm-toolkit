@@ -8,8 +8,10 @@ __license__ = "GPLv3"
 from .sampler import Sampler
 from .remdSampler import REMDSampler
 from .nvtSampler import NVTSampler
+from .distanceUmbrellaSampler import DistanceUmbrellaSampler
 
 __all__ = [
     'REMDSampler',
-    'NVTSampler'
+    'NVTSampler',
+    'DistanceUmbrellaSampler'
 ]
